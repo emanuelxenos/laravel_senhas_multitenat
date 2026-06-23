@@ -105,5 +105,11 @@ Route::middleware('auth')->group(function () {
 
     // Usuários do sistema (Apenas Admin)
     Route::resource('users', UserController::class)->except(['show']);
+
+    // Rotas do SaaS Admin (Apenas Admin global)
+    Route::get('/saas-dashboard', [\App\Http\Controllers\SaasAdminController::class, 'index'])->name('saas.dashboard');
+    Route::post('/saas/parques', [\App\Http\Controllers\SaasAdminController::class, 'store'])->name('saas.parques.store');
+    Route::put('/saas/parques/{parque}', [\App\Http\Controllers\SaasAdminController::class, 'update'])->name('saas.parques.update');
+    Route::delete('/saas/parques/{parque}', [\App\Http\Controllers\SaasAdminController::class, 'destroy'])->name('saas.parques.destroy');
 });
 

@@ -13,6 +13,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (!app('tenant')->check()) {
+            return redirect()->route('saas.dashboard');
+        }
+
         $totalCompetidores = Competidor::count();
         $totalInscricoes = Inscricao::count();
         $totalSenhas = Senha::count();

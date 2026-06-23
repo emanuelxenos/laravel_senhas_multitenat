@@ -382,6 +382,20 @@
         </div>
 
         <nav class="sidebar-menu" style="display: flex; flex-direction: column; height: calc(100vh - 130px);">
+            @if(Auth::user()->parque_id === null)
+                <!-- SaaS ADMIN MENU -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Painel SaaS</div>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li class="menu-item">
+                            <a href="{{ route('saas.dashboard') }}" class="menu-link {{ request()->routeIs('saas.dashboard') ? 'active' : '' }}">
+                                <i class="fas fa-cubes menu-icon"></i>
+                                <span class="menu-label">Gerenciar Parques</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            @else
             <!-- GERENCIAMENTO -->
             <div class="menu-section">
                 <div class="menu-section-title">Gerenciamento</div>
@@ -487,6 +501,8 @@
             @endcan
 
 
+
+            @endif
 
             <!-- LOGOUT - Fixed at bottom -->
             <div class="logout-section" style="margin-top: auto;">

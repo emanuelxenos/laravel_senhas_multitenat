@@ -26,9 +26,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Definir o parque ativo no TenantManager para o restante do seed
-        app('tenant')->set($parque);
-        // Admin principal
+        // Admin principal (Global - Sem Parque)
         if (User::count() === 0) {
             User::create([
                 'name' => 'Admin Master',
@@ -37,6 +35,9 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin'
             ]);
         }
+
+        // Definir o parque ativo no TenantManager para o restante do seed
+        app('tenant')->set($parque);
 
         // Criar usuários do UserSeeder
         $this->call(UserSeeder::class);
