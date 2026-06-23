@@ -9,6 +9,13 @@ class RedirectController extends Controller
      */
     public function index()
     {
+        if (!app('tenant')->check()) {
+            if (auth()->check()) {
+                return redirect()->route('saas.dashboard');
+            }
+            return redirect()->route('login');
+        }
+
         if (!config('parque.portal_enabled', true)) {
             if (auth()->check() && !auth()->user()->isVaqueiro()) {
                 return redirect()->route('dashboard');
