@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # 1. O Motor do Laravel (PHP-FPM)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: senhas_app
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - senhas_network
+    depends_on:
+      - db
+
+  # 2. O Nginx Interno do Projeto (Leva o tráfego até o PHP)
+  web:
+    image: nginx:alpine
+    container_name: senhas_nginx
+    restart: always
+    ports:
+      # Mudamos aqui! O "127.0.0.1:" faz com que NINGUÉM acesse seu app pela porta 8000 direto da internet.
+      # Apenas o Nginx da sua VPS vai conseguir conversar com essa porta.
+      - "127.0.0.1:8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - senhas_network
+    depends_on:
+      - app
+
+  # 3. O Banco de Dados MySQL (Protegido)
+  db:
+    image: mysql:8.0
+    container_name: senhas_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel_senhas
+      MYSQL_USER: senhas_user
+      MYSQL_PASSWORD: senhassecurity12 # ◄ COLOQUE UMA SENHA FORTE AQUI
+      MYSQL_ROOT_PASSWORD: senhassecurity12 # ◄ COLOQUE UMA SENHA DE ROOT FORTE AQUI
+    ports:
+      # Mudamos aqui também! O seu banco de dados agora está invisível para a internet.
+      # Robôs e hackers não vão conseguir testar senhas na porta 3306.
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - senhas_network
+
+networks:
+  senhas_network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

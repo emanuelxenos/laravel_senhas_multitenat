@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Tenancy\Traits\BelongsToTenant;
+
+class Inscricao extends Model
+{
+    use BelongsToTenant;
+
+    protected $table = 'inscricoes';
+    protected $fillable = [
+        'categoria_id',
+        'vaqueiro_id',
+        'bate_esteira_id',
+        'quantidade_senhas',
+        'forma_pagamento',
+        'valor_total',
+        'status_pagamento',
+        'gateway_provider',
+        'gateway_transaction_id',
+        'gateway_qr_code',
+        'gateway_qr_code_url',
+        'parque_id',
+    ];
+
+    protected $casts = [
+        'valor_total' => 'decimal:2',
+        'quantidade_senhas' => 'integer',
+        'status_pagamento' => 'string',
+        'categoria_id' => 'integer',
+    ];
+
+    /**
+     * A categoria associada a esta inscrição
+     */
+    public function categoria(): BelongsTo
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    /**
+     * O competidor que é o vaqueiro nesta inscrição
+     */
+    public function vaqueiro(): BelongsTo
+    {
+        return $this->belongsTo(Competidor::class, 'vaqueiro_id');
+    }
+
+    /**
+     * O competidor que é o bate-esteira nesta inscrição
+     */
+    public function bateEsteira(): BelongsTo
+    {
+        return $this->belongsTo(Competidor::class, 'bate_esteira_id');
+    }
+
+    /**
+     * As senhas associadas a esta inscrição
+     */
+    public function senhas(): HasMany
+    {
+        return $this->hasMany(Senha::class);
+    }
+}

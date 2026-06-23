@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Parque extends Model
+{
+    use HasFactory;
+
+    protected $table = 'parques';
+
+    protected $fillable = [
+        'nome',
+        'slug',
+        'custom_domain',
+        'gateway_recipient_id',
+        'status',
+        'expires_at',
+    ];
+
+    protected $casts = [
+        'expires_at' => 'date',
+    ];
+
+    /**
+     * Verifica se o parque está ativo.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'ativo';
+    }
+
+    /**
+     * Verifica se a licença do parque expirou.
+     */
+    public function isExpired(): bool
+    {
+        if (is_null($this->expires_at)) {
+            return false;
+        }
+
+        return now()->startOfDay()->greaterThan($this->expires_at->startOfDay());
+    }
+}

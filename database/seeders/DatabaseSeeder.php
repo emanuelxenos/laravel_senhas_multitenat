@@ -1,0 +1,75 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use App\Models\Categoria;
+use App\Models\Setting;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class DatabaseSeeder extends Seeder
+{
+
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        // Criar Parque padrão
+        $parque = \App\Models\Parque::firstOrCreate(
+            ['slug' => 'parque-teste'],
+            [
+                'nome' => 'Parque de Teste Padrão',
+                'status' => 'ativo',
+            ]
+        );
+
+        // Definir o parque ativo no TenantManager para o restante do seed
+        app('tenant')->set($parque);
+        // Admin principal
+        if (User::count() === 0) {
+            User::create([
+                'name' => 'Admin Master',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'admin'
+            ]);
+        }
+
+        // Criar usuários do UserSeeder
+        $this->call(UserSeeder::class);
+
+        // Criar Categorias padrão
+        $categorias = [
+            ['nome' => 'Aberto', 'preco_senha' => 200.00, 'limite_senhas_por_vaqueiro' => 2, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+            ['nome' => 'Aspirante', 'preco_senha' => 150.00, 'limite_senhas_por_vaqueiro' => 2, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+            ['nome' => 'Jovem', 'preco_senha' => 80.00, 'limite_senhas_por_vaqueiro' => 1, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+            ['nome' => 'Feminina', 'preco_senha' => 100.00, 'limite_senhas_por_vaqueiro' => 1, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+            ['nome' => 'Amador', 'preco_senha' => 120.00, 'limite_senhas_por_vaqueiro' => 2, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+            ['nome' => 'Profissional', 'preco_senha' => 250.00, 'limite_senhas_por_vaqueiro' => 2, 'quantidade_bois' => 3, 'minimo_bois_sucesso' => 2],
+        ];
+
+        foreach ($categorias as $cat) {
+            Categoria::updateOrCreate(['nome' => $cat['nome']], $cat);
+        }
+
+        // Criar configurações padrão de bois por tipo de senha
+        Setting::setValue('senha.bois_padrao', '3');
+        Setting::setValue('senha.bois_boi_tv', '2');
+        
+        // Data limite nula por padrão (sem restrição até que seja configurado)
+        if (!Setting::getValue('senha.data_limite_boi_tv')) {
+            Setting::setValue('senha.data_limite_boi_tv', '');
+        }
+
+        // Outras configurações padrão se não existirem
+        if (!Setting::getValue('parque.nome')) {
+            Setting::setValue('parque.nome', 'Parque de Vaquejada Padrão');
+        }
+        if (!Setting::getValue('payment.gateway')) {
+            Setting::setValue('payment.gateway', 'none');
+        }
+    }
+}
