@@ -10,14 +10,25 @@ class SaasAdminController extends Controller
     /**
      * Dashboard / Listagem de Parques
      */
-    public function index()
+    public function index(Request $request)
     {
         // Apenas Admin global (sem parque_id) pode acessar
         if (auth()->user()->parque_id !== null) {
             abort(403, 'Acesso negado. Esta área é restrita ao Administrador Geral.');
         }
 
-        $parques = Parque::orderBy('created_at', 'desc')->paginate(10);
+        $search = $request->query('search');
+        $query = Parque::query();
+
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('nome', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%")
+                  ->orWhere('custom_domain', 'like', "%{$search}%");
+            });
+        }
+
+        $parques = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
         return view('saas.dashboard', compact('parques'));
     }

@@ -3,14 +3,29 @@
 @section('page-title', 'Gerenciar Parques (SaaS)')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
         <h4 class="mb-1 text-dark fw-bold">Parques de Vaquejada</h4>
         <p class="text-muted small mb-0">Cadastre e gerencie a expiração e configurações dos parques ativos no sistema.</p>
     </div>
-    <button type="button" class="btn btn-warning fw-bold text-dark px-4" data-bs-toggle="modal" data-bs-target="#modalNovoParque">
-        <i class="fas fa-plus me-2"></i> Novo Parque
-    </button>
+    <div class="d-flex gap-2">
+        <form action="{{ route('saas.dashboard') }}" method="GET" class="d-flex gap-1" style="max-width: 300px;">
+            <div class="input-group">
+                <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Buscar parque...">
+                <button type="submit" class="btn btn-warning border-start-0 text-dark">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            @if(request('search'))
+                <a href="{{ route('saas.dashboard') }}" class="btn btn-secondary" title="Limpar Filtro">
+                    <i class="fas fa-times"></i>
+                </a>
+            @endif
+        </form>
+        <button type="button" class="btn btn-warning fw-bold text-dark px-4" data-bs-toggle="modal" data-bs-target="#modalNovoParque">
+            <i class="fas fa-plus me-2"></i> Novo Parque
+        </button>
+    </div>
 </div>
 
 <div class="card border-0 shadow-sm rounded-3">
