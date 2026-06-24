@@ -585,8 +585,8 @@
                 <div class="feature-icon-wrapper">
                     <i class="fas fa-calculator"></i>
                 </div>
-                <h3>Split de Pagamento Inteligente</h3>
-                <p>O sistema divide o valor das inscrições na hora: os custos do gateway e taxas administrativas são separados automaticamente, e o restante cai líquido e direto na conta bancária configurada pelo parque.</p>
+                <h3>Split de Pagamento Automático</h3>
+                <p>O valor pago pelo competidor é dividido automaticamente no ato da compra: a comissão do sistema é separada na hora e o saldo restante da inscrição vai direto para a conta do parque de vaquejada.</p>
             </div>
             <!-- Feature 3 -->
             <div class="feature-card">
