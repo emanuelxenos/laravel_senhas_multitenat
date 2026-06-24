@@ -585,8 +585,8 @@
                 <div class="feature-icon-wrapper">
                     <i class="fas fa-calculator"></i>
                 </div>
-                <h3>Split de Pagamento Automático</h3>
-                <p>Esqueça os problemas fiscais e de impostos! O sistema divide o dinheiro das inscrições automaticamente na hora da compra: a parte do parque vai direto para a conta dele e sua comissão vai para a sua carteira master.</p>
+                <h3>Split de Pagamento Inteligente</h3>
+                <p>O sistema divide o valor das inscrições na hora: os custos do gateway e taxas administrativas são separados automaticamente, e o restante cai líquido e direto na conta bancária configurada pelo parque.</p>
             </div>
             <!-- Feature 3 -->
             <div class="feature-card">
@@ -607,18 +607,18 @@
             <!-- Feature 5 -->
             <div class="feature-card">
                 <div class="feature-icon-wrapper">
-                    <i class="fas fa-wifi-slash"></i>
+                    <i class="fas fa-desktop"></i>
                 </div>
-                <h3>Modo Offline & Portátil</h3>
-                <p>Sua internet caiu no meio do evento? Não tem problema! O sistema possui um instalador portátil completo que roda localmente offline em computadores Windows.</p>
+                <h3>Gerenciamento Local & Offline</h3>
+                <p>Quer usar apenas na secretaria do parque sem vendas online? Nosso instalador roda offline no Windows, permitindo gerenciar todo o evento e inscrições físicas sem depender de internet.</p>
             </div>
             <!-- Feature 6 -->
             <div class="feature-card">
                 <div class="feature-icon-wrapper">
-                    <i class="fas fa-file-invoice-dollar"></i>
+                    <i class="fas fa-print"></i>
                 </div>
-                <h3>Relatórios e Recibos Térmicos</h3>
-                <p>Fechamento de caixa automatizado, relatórios de faturamento por categoria e impressão de comprovantes em impressoras térmicas direto na secretaria física.</p>
+                <h3>Impressão de Senhas e Recibos</h3>
+                <p>Gere e imprima as senhas físicas dos competidores na secretaria. Tenha o controle total do evento na pista utilizando apenas as senhas impressas em sua impressora térmica.</p>
             </div>
         </div>
     </section>
@@ -648,6 +648,13 @@
                     <div>
                         <strong>Controle de Acessos:</strong>
                         <p class="text-sm text-gray-300">Contas dedicadas para Administrador, Secretária, Locutor e Juiz com permissões de segurança estritas.</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Integração com WhatsApp:</strong>
+                        <p class="text-sm text-gray-300">Envie o comprovante de inscrição, link do PIX de pagamento e a confirmação das senhas diretamente no WhatsApp do competidor.</p>
                     </div>
                 </li>
             </ul>
