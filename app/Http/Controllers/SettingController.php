@@ -93,8 +93,10 @@ class SettingController extends Controller
 
         $tenantId = app('tenant')->id();
 
-        // Limpar dados vinculados ao parque/tenant direto no banco para evitar restrições de escopos e eventos
+        // Limpar dados vinculados ao parque/tenant direto no banco desativando verificações de FK para evitar travas
         \Illuminate\Support\Facades\DB::transaction(function() use ($tenantId) {
+            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            
             // Deletar corridas
             \Illuminate\Support\Facades\DB::table('corridas')->where('parque_id', $tenantId)->delete();
             
@@ -109,6 +111,8 @@ class SettingController extends Controller
             
             // Deletar categorias
             \Illuminate\Support\Facades\DB::table('categorias')->where('parque_id', $tenantId)->delete();
+
+            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         });
 
         return redirect()->back()->with('success', 'Todos os dados do evento (categorias, inscrições, senhas e competidores) foram zerados com sucesso!');

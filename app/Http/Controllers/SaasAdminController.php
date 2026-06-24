@@ -131,6 +131,8 @@ class SaasAdminController extends Controller
 
         // Limpar dados vinculados ao parque direto no banco para evitar restrições de escopos e eventos
         \Illuminate\Support\Facades\DB::transaction(function() use ($parque) {
+            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
             // Deletar corridas
             \Illuminate\Support\Facades\DB::table('corridas')->where('parque_id', $parque->id)->delete();
             
@@ -145,6 +147,8 @@ class SaasAdminController extends Controller
             
             // Deletar categorias
             \Illuminate\Support\Facades\DB::table('categorias')->where('parque_id', $parque->id)->delete();
+
+            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         });
 
         return redirect()->back()->with('success', 'Todos os dados do parque (categorias, inscrições, senhas e competidores) foram zerados com sucesso!');
