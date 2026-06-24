@@ -82,9 +82,15 @@
                             </td>
                             <td>
                                 @if($parque->isActive())
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Ativo</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 d-block mb-1 text-center">Ativo</span>
                                 @else
-                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">Inativo</span>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 d-block mb-1 text-center">Inativo</span>
+                                @endif
+
+                                @if($parque->portal_enabled)
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-0.5 small d-block text-center" style="font-size: 0.75rem;">Portal ON</span>
+                                @else
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-0.5 small d-block text-center" style="font-size: 0.75rem;">Portal OFF</span>
                                 @endif
                             </td>
                             <td>
@@ -216,6 +222,14 @@
                                                     <div class="form-text small">Deixe em branco para vitalício</div>
                                                 </div>
                                             </div>
+
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch mt-2">
+                                                    <input class="form-check-input" type="checkbox" name="portal_enabled" id="portal_enabled_edit{{ $parque->id }}" value="1" {{ $parque->portal_enabled ? 'checked' : '' }}>
+                                                    <label class="form-check-label fw-bold text-dark" for="portal_enabled_edit{{ $parque->id }}">Habilitar Portal de Vendas de Senhas Online</label>
+                                                    <div class="form-text small">Se desmarcado, os competidores não conseguirão fazer novas inscrições online no subdomínio deste parque.</div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -296,6 +310,14 @@
                             <label class="form-label fw-bold">Expiração da Licença</label>
                             <input type="date" name="expires_at" class="form-control">
                             <div class="form-text small">Deixe em branco para vitalício</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" name="portal_enabled" id="portal_enabled_new" value="1" checked>
+                            <label class="form-check-label fw-bold text-dark" for="portal_enabled_new">Habilitar Portal de Vendas de Senhas Online</label>
+                            <div class="form-text small">Se desmarcado, os competidores não conseguirão fazer novas inscrições online no subdomínio deste parque.</div>
                         </div>
                     </div>
 

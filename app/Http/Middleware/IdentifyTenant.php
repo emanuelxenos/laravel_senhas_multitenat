@@ -67,6 +67,7 @@ class IdentifyTenant
                 'parque.city' => Setting::getValue('parque.city', $defaults['city'] ?? ''),
                 'parque.state' => Setting::getValue('parque.state', $defaults['state'] ?? ''),
                 'parque.contact' => Setting::getValue('parque.contact', $defaults['contact'] ?? ''),
+                'parque.portal_enabled' => (bool)$tenant->portal_enabled,
             ]);
         }
 

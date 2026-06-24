@@ -49,6 +49,7 @@ class SaasAdminController extends Controller
             'custom_domain' => 'nullable|string|max:255|unique:parques,custom_domain',
             'gateway_recipient_id' => 'nullable|string|max:255',
             'status' => 'required|in:ativo,inativo',
+            'portal_enabled' => 'nullable|boolean',
             'expires_at' => 'nullable|date',
             'comissao_percentual' => 'nullable|numeric|min:0|max:100',
             'comissao_fixa' => 'nullable|numeric|min:0',
@@ -57,8 +58,11 @@ class SaasAdminController extends Controller
             'admin_password' => 'required|string|min:6',
         ]);
 
+        $data = $request->except(['admin_name', 'admin_email', 'admin_password']);
+        $data['portal_enabled'] = $request->has('portal_enabled') ? (bool)$request->portal_enabled : true;
+
         // Criar o parque
-        $parque = Parque::create($request->except(['admin_name', 'admin_email', 'admin_password']));
+        $parque = Parque::create($data);
 
         // Criar o usuário administrador do parque associado a ele
         User::create([
@@ -87,12 +91,16 @@ class SaasAdminController extends Controller
             'custom_domain' => 'nullable|string|max:255|unique:parques,custom_domain,' . $parque->id,
             'gateway_recipient_id' => 'nullable|string|max:255',
             'status' => 'required|in:ativo,inativo',
+            'portal_enabled' => 'nullable|boolean',
             'expires_at' => 'nullable|date',
             'comissao_percentual' => 'nullable|numeric|min:0|max:100',
             'comissao_fixa' => 'nullable|numeric|min:0',
         ]);
 
-        $parque->update($request->all());
+        $data = $request->all();
+        $data['portal_enabled'] = $request->has('portal_enabled') ? (bool)$request->portal_enabled : false;
+
+        $parque->update($data);
 
         return redirect()->back()->with('success', 'Parque atualizado com sucesso!');
     }

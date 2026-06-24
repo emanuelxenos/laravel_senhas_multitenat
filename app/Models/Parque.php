@@ -17,6 +17,7 @@ class Parque extends Model
         'custom_domain',
         'gateway_recipient_id',
         'status',
+        'portal_enabled',
         'expires_at',
         'comissao_percentual',
         'comissao_fixa',
@@ -26,6 +27,7 @@ class Parque extends Model
         'expires_at' => 'date',
         'comissao_percentual' => 'float',
         'comissao_fixa' => 'float',
+        'portal_enabled' => 'boolean',
     ];
 
     /**
