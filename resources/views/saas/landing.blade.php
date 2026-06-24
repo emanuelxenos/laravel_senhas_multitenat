@@ -660,16 +660,12 @@
     <!-- PRICING -->
     <section class="pricing" id="precos">
         <div class="section-title">
-            <h2>Comece a Faturar Mais Hoje</h2>
-            <p>Preços transparentes para alavancar a organização do seu parque de vaquejada.</p>
+            <h2>Pronto para Alavancar Seu Parque?</h2>
+            <p>Entre em contato com nossa equipe comercial para obter uma proposta personalizada para o seu evento.</p>
         </div>
         <div class="pricing-card">
-            <h3>Licença por Evento</h3>
-            <p class="text-muted">Tudo incluído, sem taxas ocultas</p>
-            <div class="price">
-                R$ 499<span> / evento</span>
-            </div>
-            <p class="text-sm text-warning fw-bold mb-4">Ou cobre comissão por senha vendida com Split Automático!</p>
+            <h3>Fale Conosco</h3>
+            <p class="text-muted">Consulte condições sob medida para o seu parque</p>
             <ul class="price-features">
                 <li><i class="fas fa-check"></i> Inscrições e Senhas Online</li>
                 <li><i class="fas fa-check"></i> Painel do Juiz & Locutor</li>
