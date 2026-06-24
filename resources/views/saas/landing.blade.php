@@ -618,7 +618,7 @@
                     <i class="fas fa-print"></i>
                 </div>
                 <h3>Impressão de Senhas & Comprovantes</h3>
-                <p>Emita as senhas dos competidores em PDF para impressão e os comprovantes de pagamento diretamente em impressoras térmicas na secretaria. Controle todo o evento na pista utilizando as senhas físicas impressas.</p>
+                <p>Emita as senhas dos competidores em PDF para impressão e os comprovantes diretamente em impressoras térmicas na secretaria. Controle todo o evento na pista utilizando as senhas físicas impressas.</p>
             </div>
         </div>
     </section>
