@@ -657,6 +657,13 @@
                         <p class="text-sm text-gray-300">Permite que o competidor envie o comprovante de inscrição e os dados da senha gerada diretamente para o WhatsApp de atendimento do parque com um único clique.</p>
                     </div>
                 </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Domínio Personalizado:</strong>
+                        <p class="text-sm text-gray-300">Acesse o portal do seu parque usando seu próprio endereço na web (como <code>www.meuparque.com.br</code>) mantendo a identidade visual da sua marca.</p>
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="showcase-image">
