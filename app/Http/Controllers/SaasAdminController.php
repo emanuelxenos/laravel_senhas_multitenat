@@ -131,9 +131,8 @@ class SaasAdminController extends Controller
 
         // Limpar dados vinculados ao parque direto no banco para evitar restrições de escopos e eventos
         \Illuminate\Support\Facades\DB::transaction(function() use ($parque) {
-            // Deletar corridas e vaqueiros
+            // Deletar corridas
             \Illuminate\Support\Facades\DB::table('corridas')->where('parque_id', $parque->id)->delete();
-            \Illuminate\Support\Facades\DB::table('vaqueiros')->where('parque_id', $parque->id)->delete();
             
             // Deletar senhas
             \Illuminate\Support\Facades\DB::table('senhas')->where('parque_id', $parque->id)->delete();
