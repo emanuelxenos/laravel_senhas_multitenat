@@ -23,7 +23,7 @@ class RedirectController extends Controller
             return redirect()->route('dashboard');
         }
 
-        // Se for um parque (tenant) e não estiver logado, redireciona direto para o login do portal do vaqueiro deste parque
-        return redirect()->route('portal.login');
+        // Se for um parque (tenant) e não estiver logado, exibe a página inicial do parque
+        return view('welcome');
     }
 }
