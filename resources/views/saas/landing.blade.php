@@ -617,8 +617,8 @@
                 <div class="feature-icon-wrapper">
                     <i class="fas fa-print"></i>
                 </div>
-                <h3>Duplo Formato de Impressão</h3>
-                <p>Emita as senhas dos competidores em PDF ou direto em impressoras térmicas na secretaria. Se preferir, você pode controlar o andamento de todo o evento e da pista utilizando apenas as senhas impressas.</p>
+                <h3>Impressão de Senhas & Comprovantes</h3>
+                <p>Emita as senhas dos competidores em PDF para impressão e os comprovantes de pagamento diretamente em impressoras térmicas na secretaria. Controle todo o evento na pista utilizando as senhas físicas impressas.</p>
             </div>
         </div>
     </section>
