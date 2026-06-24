@@ -13,7 +13,7 @@ class RedirectController extends Controller
             if (auth()->check()) {
                 return redirect()->route('saas.dashboard');
             }
-            return redirect()->route('login');
+            return view('saas.landing');
         }
 
         if (!config('parque.portal_enabled', true)) {
