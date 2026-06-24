@@ -184,6 +184,13 @@
                 </tbody>
             </table>
         </div>
+        @if($parques->hasPages())
+            <div class="card-footer bg-white border-top py-3">
+                <div class="d-flex justify-content-center">
+                    {{ $parques->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

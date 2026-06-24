@@ -17,7 +17,7 @@ class SaasAdminController extends Controller
             abort(403, 'Acesso negado. Esta área é restrita ao Administrador Geral.');
         }
 
-        $parques = Parque::orderBy('created_at', 'desc')->get();
+        $parques = Parque::orderBy('created_at', 'desc')->paginate(10);
 
         return view('saas.dashboard', compact('parques'));
     }
