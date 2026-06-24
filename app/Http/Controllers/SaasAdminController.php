@@ -110,4 +110,44 @@ class SaasAdminController extends Controller
 
         return redirect()->back()->with('success', 'Parque excluído com sucesso!');
     }
+
+    /**
+     * Zerar dados do evento de um parque
+     */
+    public function reset(Request $request, Parque $parque)
+    {
+        if (auth()->user()->parque_id !== null) {
+            abort(403);
+        }
+
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        // Validar senha do Master Admin atual
+        if (!\Illuminate\Support\Facades\Hash::check($request->password, auth()->user()->password)) {
+            return redirect()->back()->withErrors(['password' => 'Senha Master incorreta. Ação abortada.']);
+        }
+
+        // Limpar dados vinculados ao parque
+        \Illuminate\Support\Facades\DB::transaction(function() use ($parque) {
+            // Deletar corridas e vaqueiros
+            \App\Models\Corrida::where('parque_id', $parque->id)->delete();
+            \App\Models\Vaqueiro::where('parque_id', $parque->id)->delete();
+            
+            // Deletar senhas
+            \App\Models\Senha::where('parque_id', $parque->id)->delete();
+            
+            // Deletar inscrições
+            \App\Models\Inscricao::where('parque_id', $parque->id)->delete();
+            
+            // Deletar competidores
+            \App\Models\Competidor::where('parque_id', $parque->id)->delete();
+            
+            // Deletar categorias
+            \App\Models\Categoria::where('parque_id', $parque->id)->delete();
+        });
+
+        return redirect()->back()->with('success', 'Todos os dados do parque (categorias, inscrições, senhas e competidores) foram zerados com sucesso!');
+    }
 }

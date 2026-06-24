@@ -31,6 +31,20 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
         @csrf
 
@@ -95,6 +109,46 @@
 
         <button type="submit" class="btn btn-primary mt-3">Salvar Configurações</button>
     </form>
+
+    <hr class="my-5 border-danger">
+    <div class="card border-danger bg-danger-subtle mb-4">
+        <div class="card-body">
+            <h4 class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Área de Perigo: Zerar Dados do Evento</h4>
+            <p class="text-dark mb-3">Esta ação irá apagar de forma definitiva todas as <strong>Categorias, Competidores, Inscrições, Transações e Senhas</strong> vinculadas a este parque. Ideal para iniciar um novo ano ou nova edição do evento.</p>
+            <p class="text-muted small mb-3">Os usuários da equipe, as configurações básicas e o próprio parque continuarão intactos.</p>
+            <button type="button" class="btn btn-danger fw-bold" data-bs-toggle="modal" data-bs-target="#modalResetEvento">
+                <i class="fas fa-undo me-2"></i>Zerar Evento
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal para Confirmar Reset do Evento pelo Parque -->
+    <div class="modal fade" id="modalResetEvento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('settings.reset') }}" method="POST">
+                    @csrf
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Reset de Dados</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                        <p class="text-dark fw-bold">Deseja realmente zerar todos os dados deste parque?</p>
+                        <p class="text-muted small">Essa ação é definitiva e não poderá ser desfeita. Todos os relatórios, senhas e inscrições serão perdidos.</p>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-danger">Confirme sua Senha de Administrador</label>
+                            <input type="password" name="password" class="form-control" placeholder="Digite sua senha atual" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger fw-bold">Zerar Dados Permanentemente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal para Recortar Imagem -->
     <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true" data-bs-backdrop="static">

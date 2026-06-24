@@ -77,4 +77,41 @@ class SettingController extends Controller
 
         return redirect()->route('settings.index')->with('success', 'Configurações atualizadas com sucesso!');
     }
+
+    public function reset(Request $request)
+    {
+        \Illuminate\Support\Facades\Gate::authorize('manage-settings');
+
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        // Validar senha do Administrador do parque atual
+        if (!\Illuminate\Support\Facades\Hash::check($request->password, auth()->user()->password)) {
+            return redirect()->back()->with('error', 'Senha incorreta. Ação abortada.');
+        }
+
+        $tenantId = app('tenant')->id();
+
+        // Limpar dados vinculados ao parque/tenant
+        \Illuminate\Support\Facades\DB::transaction(function() use ($tenantId) {
+            // Deletar corridas e vaqueiros
+            \App\Models\Corrida::where('parque_id', $tenantId)->delete();
+            \App\Models\Vaqueiro::where('parque_id', $tenantId)->delete();
+            
+            // Deletar senhas
+            \App\Models\Senha::where('parque_id', $tenantId)->delete();
+            
+            // Deletar inscrições
+            \App\Models\Inscricao::where('parque_id', $tenantId)->delete();
+            
+            // Deletar competidores
+            \App\Models\Competidor::where('parque_id', $tenantId)->delete();
+            
+            // Deletar categorias
+            \App\Models\Categoria::where('parque_id', $tenantId)->delete();
+        });
+
+        return redirect()->back()->with('success', 'Todos os dados do evento (categorias, inscrições, senhas e competidores) foram zerados com sucesso!');
+    }
 }

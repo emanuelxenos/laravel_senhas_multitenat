@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
     // Configurações do sistema
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+    Route::post('/settings/reset', [SettingController::class, 'reset'])->name('settings.reset');
 
     // Categorias do sistema
     Route::resource('categorias', CategoriaController::class)->except(['show', 'create', 'edit']);
@@ -111,5 +112,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/saas/parques', [\App\Http\Controllers\SaasAdminController::class, 'store'])->name('saas.parques.store');
     Route::put('/saas/parques/{parque}', [\App\Http\Controllers\SaasAdminController::class, 'update'])->name('saas.parques.update');
     Route::delete('/saas/parques/{parque}', [\App\Http\Controllers\SaasAdminController::class, 'destroy'])->name('saas.parques.destroy');
+    Route::post('/saas/parques/{parque}/reset', [\App\Http\Controllers\SaasAdminController::class, 'reset'])->name('saas.parques.reset');
 });
 

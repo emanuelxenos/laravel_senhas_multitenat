@@ -114,6 +114,14 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
 
+                                    <!-- Zerar Dados (Reset) -->
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalZerarParque{{ $parque->id }}" 
+                                            title="Zerar Dados do Evento">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+
                                     <!-- Excluir -->
                                     <form action="{{ route('saas.parques.destroy', $parque) }}" method="POST" style="display:inline;" onsubmit="return confirm('Deseja realmente excluir este parque? Todos os dados associados a ele serão excluídos permanentemente!')">
                                         @csrf
@@ -125,6 +133,35 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Modal Zerar Dados do Parque -->
+                        <div class="modal fade" id="modalZerarParque{{ $parque->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form action="{{ route('saas.parques.reset', $parque) }}" method="POST">
+                                        @csrf
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i> Zerar Dados do Parque: {{ $parque->nome }}</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-start">
+                                            <p class="text-dark fw-semibold">Atenção! Esta ação é irreversível.</p>
+                                            <p class="text-muted small">Todos os dados relacionados a este parque serão excluídos permanentemente: <strong>Categorias, Competidores, Inscrições, Transações e Senhas</strong>.</p>
+                                            <p class="text-muted small">O parque em si e os usuários cadastrados não serão removidos.</p>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold text-danger">Confirme sua Senha Master de Administrador</label>
+                                                <input type="password" name="password" class="form-control" placeholder="Digite sua senha master" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-danger fw-bold">Confirmar e Zerar Tudo</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Modal Editar Parque -->
                         <div class="modal fade" id="modalEditarParque{{ $parque->id }}" tabindex="-1" aria-hidden="true">
