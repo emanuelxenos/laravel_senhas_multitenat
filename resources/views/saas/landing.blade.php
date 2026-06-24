@@ -654,7 +654,7 @@
                     <i class="fas fa-check-circle"></i>
                     <div>
                         <strong>Integração com WhatsApp:</strong>
-                        <p class="text-sm text-gray-300">Envie o comprovante de inscrição, link do PIX de pagamento e a confirmação das senhas diretamente no WhatsApp do competidor.</p>
+                        <p class="text-sm text-gray-300">Permite que o competidor envie o comprovante de inscrição e os dados da senha gerada diretamente para o WhatsApp de atendimento do parque com um único clique.</p>
                     </div>
                 </li>
             </ul>
