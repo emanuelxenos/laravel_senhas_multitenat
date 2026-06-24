@@ -16,18 +16,6 @@ class RedirectController extends Controller
             return view('saas.landing');
         }
 
-        if (!config('parque.portal_enabled', true)) {
-            if (auth()->check() && !auth()->user()->isVaqueiro()) {
-                return redirect()->route('dashboard');
-            }
-            if (auth()->check() && auth()->user()->isVaqueiro()) {
-                auth()->logout();
-                session()->invalidate();
-                session()->regenerateToken();
-            }
-            return redirect()->route('login');
-        }
-
         if (auth()->check()) {
             if (auth()->user()->isVaqueiro()) {
                 return redirect()->route('portal.dashboard');
@@ -35,6 +23,7 @@ class RedirectController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('welcome');
+        // Se for um parque (tenant) e não estiver logado, redireciona direto para o login do portal do vaqueiro deste parque
+        return redirect()->route('portal.login');
     }
 }
