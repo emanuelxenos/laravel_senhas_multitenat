@@ -261,6 +261,25 @@
                             <div class="form-text small">Deixe em branco para vitalício</div>
                         </div>
                     </div>
+
+                    <hr class="my-4">
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-shield me-2"></i>Primeiro Administrador do Parque</h6>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nome do Administrador</label>
+                        <input type="text" name="admin_name" class="form-control" placeholder="Ex: João da Silva" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">E-mail do Administrador</label>
+                            <input type="email" name="admin_email" class="form-control" placeholder="Ex: admin@parque.com" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Senha Inicial</label>
+                            <input type="password" name="admin_password" class="form-control" placeholder="Min. 6 caracteres" required>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

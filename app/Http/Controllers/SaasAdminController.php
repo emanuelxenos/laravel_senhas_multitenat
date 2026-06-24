@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parque;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SaasAdminController extends Controller
@@ -51,11 +52,24 @@ class SaasAdminController extends Controller
             'expires_at' => 'nullable|date',
             'comissao_percentual' => 'nullable|numeric|min:0|max:100',
             'comissao_fixa' => 'nullable|numeric|min:0',
+            'admin_name' => 'required|string|max:255',
+            'admin_email' => 'required|email|unique:users,email',
+            'admin_password' => 'required|string|min:6',
         ]);
 
-        Parque::create($request->all());
+        // Criar o parque
+        $parque = Parque::create($request->except(['admin_name', 'admin_email', 'admin_password']));
 
-        return redirect()->back()->with('success', 'Parque de Vaquejada cadastrado com sucesso!');
+        // Criar o usuário administrador do parque associado a ele
+        User::create([
+            'name' => $request->admin_name,
+            'email' => $request->admin_email,
+            'password' => bcrypt($request->admin_password),
+            'role' => 'admin',
+            'parque_id' => $parque->id,
+        ]);
+
+        return redirect()->back()->with('success', 'Parque de Vaquejada e Administrador cadastrados com sucesso!');
     }
 
     /**
