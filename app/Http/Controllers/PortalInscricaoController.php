@@ -102,17 +102,24 @@ class PortalInscricaoController extends Controller
             $bateEsteiraId = $novoBateEsteira->id;
         }
 
+        $provider = env('PAYMENT_GATEWAY', 'none');
+        $tenant = app('tenant')->get();
+        if (!$tenant || empty($tenant->gateway_recipient_id)) {
+            $provider = 'none';
+        }
+
+        $formaPagamento = ($provider === 'none') ? 'A pagar na secretaria' : 'Pix (Gateway)';
+
         $inscricao = Inscricao::create([
             'categoria_id' => $categoria->id,
             'vaqueiro_id' => $user->competidor->id,
             'bate_esteira_id' => $bateEsteiraId,
             'quantidade_senhas' => $request->quantidade_senhas,
-            'forma_pagamento' => 'Pix (Gateway)',
+            'forma_pagamento' => $formaPagamento,
             'valor_total' => $valorTotal,
             'status_pagamento' => 'pendente',
         ]);
 
-        $provider = Setting::getValue('payment.gateway', 'none');
         if (in_array($provider, ['asaas', 'pagseguro'])) {
             try {
                 $gateway = $this->getGatewayInstance($provider);

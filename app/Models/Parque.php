@@ -18,10 +18,14 @@ class Parque extends Model
         'gateway_recipient_id',
         'status',
         'expires_at',
+        'comissao_percentual',
+        'comissao_fixa',
     ];
 
     protected $casts = [
         'expires_at' => 'date',
+        'comissao_percentual' => 'float',
+        'comissao_fixa' => 'float',
     ];
 
     /**

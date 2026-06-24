@@ -24,6 +24,7 @@
                         <th>Identificador (Slug)</th>
                         <th>Domínio Personalizado</th>
                         <th>Split Gateway</th>
+                        <th>Comissão</th>
                         <th>Status</th>
                         <th>Expiração de Licença</th>
                         <th class="text-end pe-4">Ações</th>
@@ -57,8 +58,12 @@
                                         <i class="fas fa-wallet me-1"></i> {{ substr($parque->gateway_recipient_id, 0, 10) }}...
                                     </span>
                                 @else
-                                    <span class="text-muted small">Padrão Geral</span>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 small fw-bold">Venda Online Bloqueada</span>
                                 @endif
+                            </td>
+                            <td>
+                                <div class="small fw-semibold text-dark">{{ number_format($parque->comissao_percentual, 2, ',', '.') }}%</div>
+                                <div class="text-muted small">+ R$ {{ number_format($parque->comissao_fixa, 2, ',', '.') }}</div>
                             </td>
                             <td>
                                 @if($parque->isActive())
@@ -137,6 +142,16 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-bold">Taxa Comissão (%)</label>
+                                                    <input type="number" step="0.01" min="0" max="100" name="comissao_percentual" value="{{ $parque->comissao_percentual }}" class="form-control" placeholder="0.00">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-bold">Taxa Fixa por Senha (R$)</label>
+                                                    <input type="number" step="0.01" min="0" name="comissao_fixa" value="{{ $parque->comissao_fixa }}" class="form-control" placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
                                                     <label class="form-label fw-bold">Status</label>
                                                     <select name="status" class="form-select" required>
                                                         <option value="ativo" {{ $parque->status === 'ativo' ? 'selected' : '' }}>Ativo</option>
@@ -199,6 +214,16 @@
                     <div class="mb-3">
                         <label class="form-label fw-bold">ID Recebedor Gateway (Split de Pagamento)</label>
                         <input type="text" name="gateway_recipient_id" class="form-control" placeholder="ID da carteira no gateway (Asaas, etc.)">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Taxa Comissão (%)</label>
+                            <input type="number" step="0.01" min="0" max="100" name="comissao_percentual" class="form-control" placeholder="0.00" value="0.00">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Taxa Fixa por Senha (R$)</label>
+                            <input type="number" step="0.01" min="0" name="comissao_fixa" class="form-control" placeholder="0.00" value="0.00">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">

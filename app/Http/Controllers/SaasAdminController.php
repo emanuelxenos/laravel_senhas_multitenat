@@ -38,6 +38,8 @@ class SaasAdminController extends Controller
             'gateway_recipient_id' => 'nullable|string|max:255',
             'status' => 'required|in:ativo,inativo',
             'expires_at' => 'nullable|date',
+            'comissao_percentual' => 'nullable|numeric|min:0|max:100',
+            'comissao_fixa' => 'nullable|numeric|min:0',
         ]);
 
         Parque::create($request->all());
@@ -61,6 +63,8 @@ class SaasAdminController extends Controller
             'gateway_recipient_id' => 'nullable|string|max:255',
             'status' => 'required|in:ativo,inativo',
             'expires_at' => 'nullable|date',
+            'comissao_percentual' => 'nullable|numeric|min:0|max:100',
+            'comissao_fixa' => 'nullable|numeric|min:0',
         ]);
 
         $parque->update($request->all());

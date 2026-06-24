@@ -14,8 +14,8 @@ class AsaasGateway implements PaymentGatewayInterface
 
     public function __construct()
     {
-        $this->apiKey = Setting::getValue('payment.asaas_api_key', '');
-        $env = Setting::getValue('payment.asaas_env', 'sandbox');
+        $this->apiKey = env('ASAAS_API_KEY', '');
+        $env = env('ASAAS_ENV', 'sandbox');
         
         $this->baseUrl = $env === 'sandbox' 
             ? 'https://sandbox.asaas.com/api/v3'
@@ -52,9 +52,19 @@ class AsaasGateway implements PaymentGatewayInterface
             }
         }
 
+        $tenant = app('tenant')->get();
+        if (!$tenant || empty($tenant->gateway_recipient_id)) {
+            throw new Exception("Vendas online indisponíveis para este evento no momento. (Configuração de recebimento ausente)");
+        }
+
+        $comissaoPercentual = (float) $tenant->comissao_percentual;
+        $comissaoFixa = (float) $tenant->comissao_fixa;
+        $comissaoTotal = ($valor * ($comissaoPercentual / 100)) + $comissaoFixa;
+        $valorParque = max(0.01, $valor - $comissaoTotal);
+
         $customerId = $this->getOrCreateCustomer($customerName, $customerCpf);
 
-        // 2. Criar a cobrança (Charge) com BillingType = PIX
+        // 2. Criar a cobrança (Charge) com BillingType = PIX e Split ativado
         $response = Http::withHeaders([
             'access_token' => $this->apiKey,
             'Content-Type' => 'application/json',
@@ -64,6 +74,12 @@ class AsaasGateway implements PaymentGatewayInterface
             'value' => $valor,
             'dueDate' => date('Y-m-d', strtotime('+1 day')),
             'description' => "Inscrição Vaquejada #{$inscricao->id} - {$customerName}",
+            'split' => [
+                [
+                    'walletId' => $tenant->gateway_recipient_id,
+                    'fixedValue' => $valorParque,
+                ]
+            ]
         ]);
 
         if ($response->failed()) {
