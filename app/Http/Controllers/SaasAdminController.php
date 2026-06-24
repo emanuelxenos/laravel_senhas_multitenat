@@ -129,23 +129,23 @@ class SaasAdminController extends Controller
             return redirect()->back()->withErrors(['password' => 'Senha Master incorreta. Ação abortada.']);
         }
 
-        // Limpar dados vinculados ao parque
+        // Limpar dados vinculados ao parque direto no banco para evitar restrições de escopos e eventos
         \Illuminate\Support\Facades\DB::transaction(function() use ($parque) {
             // Deletar corridas e vaqueiros
-            \App\Models\Corrida::where('parque_id', $parque->id)->delete();
-            \App\Models\Vaqueiro::where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('corridas')->where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('vaqueiros')->where('parque_id', $parque->id)->delete();
             
             // Deletar senhas
-            \App\Models\Senha::where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('senhas')->where('parque_id', $parque->id)->delete();
             
             // Deletar inscrições
-            \App\Models\Inscricao::where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('inscricoes')->where('parque_id', $parque->id)->delete();
             
             // Deletar competidores
-            \App\Models\Competidor::where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('competidores')->where('parque_id', $parque->id)->delete();
             
             // Deletar categorias
-            \App\Models\Categoria::where('parque_id', $parque->id)->delete();
+            \Illuminate\Support\Facades\DB::table('categorias')->where('parque_id', $parque->id)->delete();
         });
 
         return redirect()->back()->with('success', 'Todos os dados do parque (categorias, inscrições, senhas e competidores) foram zerados com sucesso!');
