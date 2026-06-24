@@ -555,7 +555,7 @@
     <!-- HERO -->
     <div class="hero">
         <div class="badge-premium">
-            <i class="fas fa-crown me-2"></i> Lançamento Exclusivo
+            <i class="fas fa-crown me-2"></i> O MAIOR SISTEMA DE VAQUEJADA DO MUNDO
         </div>
         <h1>Esqueça as Filas. <br>Gerencie Todo o Seu Parque de Vaquejada.</h1>
         <p>O Sis Vaquejada é o único sistema do mercado que automatiza desde a venda de senhas online via PIX até a locução e o julgamento na pista de corrida. Tenha controle absoluto na palma da sua mão.</p>
@@ -569,7 +569,7 @@
     <section id="funcionalidades">
         <div class="section-title">
             <h2>Por que escolher o Sis Vaquejada?</h2>
-            <p>Criamos a solução mais completa do mundo para automatizar o seu evento, testada e aprovada na pista.</p>
+            <p>O maior e mais completo ecossistema do mundo para gerenciar e automatizar o seu parque. Testado e aprovado na pista.</p>
         </div>
         <div class="features-grid">
             <!-- Feature 1 -->
