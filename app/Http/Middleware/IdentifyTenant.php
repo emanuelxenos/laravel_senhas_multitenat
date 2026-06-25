@@ -16,10 +16,16 @@ class IdentifyTenant
     public function handle(Request $request, Closure $next): Response
     {
         $host = $request->getHost();
+        
+        // Normalizar o host removendo o prefixo "www." para evitar falhas de busca
+        $cleanHost = str_starts_with($host, 'www.') ? substr($host, 4) : $host;
+        
         $tenant = null;
 
-        // 1. Identificar por Domínio Customizado
-        $tenant = Parque::where('custom_domain', $host)->first();
+        // 1. Identificar por Domínio Customizado (com ou sem www)
+        $tenant = Parque::where('custom_domain', $cleanHost)
+            ->orWhere('custom_domain', 'www.' . $cleanHost)
+            ->first();
 
         // 2. Identificar por Subdomínio
         if (!$tenant) {
