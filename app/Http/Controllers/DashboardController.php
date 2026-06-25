@@ -20,7 +20,31 @@ class DashboardController extends Controller
         $totalCompetidores = Competidor::count();
         $totalInscricoes = Inscricao::count();
         $totalSenhas = Senha::count();
-        $totalFaturamento = Inscricao::where('status_pagamento', 'pago')->sum('valor_total');
+        
+        // Faturamento bruto (total de inscrições pagas)
+        $totalFaturamentoBruto = Inscricao::where('status_pagamento', 'pago')->sum('valor_total');
+
+        // Buscar dados de taxas do parque ativo
+        $tenant = app('tenant')->get();
+        $comissaoPercentual = $tenant ? (float)$tenant->comissao_percentual : 0.0;
+        $comissaoFixa = $tenant ? (float)$tenant->comissao_fixa : 0.0;
+
+        // Buscar as inscrições pagas com contagem de senhas para deduzir a taxa fixa por senha e a taxa percentual
+        $inscricoesPagas = Inscricao::where('status_pagamento', 'pago')
+            ->withCount(['senhas' => function($q) {
+                $q->where('status', '!=', 'cancelado');
+            }])
+            ->get();
+
+        $totalComissaoDeducoes = 0.0;
+        foreach ($inscricoesPagas as $insc) {
+            $taxaPercentual = $insc->valor_total * ($comissaoPercentual / 100);
+            $taxaFixaTotal = $insc->senhas_count * $comissaoFixa;
+            $totalComissaoDeducoes += ($taxaPercentual + $taxaFixaTotal);
+        }
+
+        // Faturamento líquido
+        $totalFaturamento = max(0.0, $totalFaturamentoBruto - $totalComissaoDeducoes);
 
         // Dados para gráfico: distribuição de pagamentos (por inscrição)
         $pagamentos = Inscricao::selectRaw('forma_pagamento, COUNT(*) as total')

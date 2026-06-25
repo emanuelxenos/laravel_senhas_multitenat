@@ -72,10 +72,15 @@
     @if(auth()->user()->role === 'admin')
     <div class="col-sm-6 col-xl-3 mb-3">
         <div class="card border-warning h-100 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Faturamento (Pago)</h5>
-                <p class="card-text fs-2 fw-bold text-warning">R$ {{ number_format($totalFaturamento, 2, ',', '.') }}</p>
-                <a href="{{ route('relatorios.geral') }}" target="_blank" class="btn btn-sm btn-warning">Relatório</a>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">Faturamento Líquido</h5>
+                    <p class="card-text fs-2 fw-bold text-warning mb-1">R$ {{ number_format($totalFaturamento, 2, ',', '.') }}</p>
+                    <div class="text-muted small mb-3" style="font-size: 11px;">
+                        <i class="fas fa-info-circle me-1"></i>Valor líquido (descontada a comissão da plataforma).
+                    </div>
+                </div>
+                <a href="{{ route('relatorios.geral') }}" target="_blank" class="btn btn-sm btn-warning w-100">Relatório</a>
             </div>
         </div>
     </div>
